@@ -18,7 +18,7 @@ public class PersonsBusinessTierImpl implements PersonsBusinessTier {
 	}
 	
 	@Override
-	public Persons getAllPersons() throws RemoteException {
+	public Persons getAllPersons() throws RemoteException {		
 		return dataTier.getAllPersons();
 	}
 
