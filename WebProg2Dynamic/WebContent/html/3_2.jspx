@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<jsp:directive.page isELIgnored="false"></jsp:directive.page>
+<head>
+<title>Aufgabe 3.2</title>
+</head>
+
+<body>
+<jsp:useBean id="infoBean" class="de.hsb.smaevers.beans.InfoBean"/>
+	<table>
+		<thead>
+		<tr>
+			<th>Key</th>
+			<th>Value</th>
+		</tr>
+		</thead>
+		<tbody>
+			<c:forEach var="p" items="${infoBean.systemProperties}">
+				<tr>
+					<td><c:out value="${p.key}"/></td>
+					<td>
+						<c:out value="${p.value}"/>
+					</td>
+				</tr>
+			</c:forEach>
+		</tbody>
+	</table>
+</body>
+
+</html>

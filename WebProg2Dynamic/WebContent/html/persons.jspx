@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<jsp:directive.page isELIgnored="false"></jsp:directive.page>
+<head>
+<title>Persons Aufgabe 4</title>
+</head>
+
+<body>
+<jsp:useBean id="personsBean" type="de.hsb.smaevers.beans.Persons" scope="request"/>
+<table>
+	<thead>
+	<tr>
+		<th>Firstname</th>
+		<th>Lastname</th>
+	</tr>
+	</thead>
+	<tbody>
+		<c:forEach var="p" items="${personsBean.persons}">
+			<tr>
+				<c:url var="url" value="PersonServlet?id=${p.id}"/>
+				<td><a href="${url}"><c:out value="${p.firstname}"/></a></td>
+				<td>
+					<c:if test="${not empty p.lastname}">
+						<c:out value="${p.lastname}"/>
+					</c:if>
+					<c:if test="${empty p.lastname}">
+						<c:out value="*"/>
+					</c:if>
+				</td>
+			</tr>
+		</c:forEach>
+	</tbody>
+</table>
+</body>
+
+</html>

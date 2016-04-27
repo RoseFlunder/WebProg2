@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsp="http://java.sun.com/JSP/Page">
+<head>
+<title>Aufgabe 3.1 a</title>
+</head>
+<body>
+	<jsp:directive.page import="java.util.Enumeration" />
+	<jsp:declaration>@SuppressWarnings("rawtypes")</jsp:declaration>
+	<table>
+		<thead>
+		<tr>
+			<th>Key</th>
+			<th>Value</th>
+		</tr>
+		</thead>
+		<tbody>
+			<jsp:declaration>Enumeration headers;</jsp:declaration>
+			
+			<jsp:scriptlet>
+				for (headers = request.getHeaderNames(); headers.hasMoreElements();) {
+					String key = headers.nextElement().toString();
+					String value = request.getHeader(key);
+			</jsp:scriptlet>
+			<tr>
+			<td>
+				<jsp:expression>key</jsp:expression>
+			</td>
+			<td>
+				<jsp:scriptlet>if ("host".equals(key)) {</jsp:scriptlet>
+					<b>
+				<jsp:scriptlet>}</jsp:scriptlet>
+				<jsp:expression>value</jsp:expression>
+				<jsp:scriptlet>if ("host".equals(key)) {</jsp:scriptlet>
+					</b>
+				<jsp:scriptlet>}</jsp:scriptlet>
+			</td>
+			</tr>
+			<jsp:scriptlet>
+				}
+			</jsp:scriptlet>
+		</tbody>
+	</table>
+
+</body>
+</html>
