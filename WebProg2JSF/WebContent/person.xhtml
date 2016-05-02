@@ -3,14 +3,14 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 	
 <h:head>
 <title>Person</title>
 </h:head>
 
 <h:body>
-	<h:panelGrid columns="2">
+	<h:panelGrid columns="2" border="1">
 		<h:outputLabel value="ID:" />
 		<h:outputText value="#{personsDetailController.person.id}" />
 		
@@ -24,7 +24,13 @@
 		<h:outputText value="#{personsDetailController.person.residence}" />
 		
 		<h:outputLabel value="Children:" />
-		<h:outputLabel value="..." />
+		<h:panelGroup>
+			<ul>
+				<ui:repeat value="#{personsDetailController.person.children}" var="c">
+					<li>#{c.firstname}</li>
+				</ui:repeat>
+			</ul>
+		</h:panelGroup>
 	</h:panelGrid>
 </h:body>
 </html>
