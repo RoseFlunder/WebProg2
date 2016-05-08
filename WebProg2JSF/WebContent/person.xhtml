@@ -2,34 +2,14 @@
 
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:h="http://xmlns.jcp.org/jsf/html" template="template.xhtml">
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:mycc="http://xmlns.jcp.org/jsf/composite/utils"
+	template="template.xhtml">
 
 	<ui:define name="head">Person details</ui:define>
 
 	<ui:define name="content">
-		<h:panelGrid columns="2" border="1">
-			<h:outputLabel value="ID:" />
-			<h:outputText value="#{personsDetailController.person.id}" />
-
-			<h:outputLabel value="Firstname:" />
-			<h:outputText value="#{personsDetailController.person.firstname}" />
-
-			<h:outputLabel value="Lastname:" />
-			<h:outputText value="#{personsDetailController.person.lastname}" />
-
-			<h:outputLabel value="Residence:" />
-			<h:outputText value="#{personsDetailController.person.residence}" />
-
-			<h:outputLabel value="Children:" />
-			<h:panelGroup>
-				<ul>
-					<ui:repeat value="#{personsDetailController.person.children}"
-						var="c">
-						<li>#{c.firstname}</li>
-					</ui:repeat>
-				</ul>
-			</h:panelGroup>
-		</h:panelGrid>
+		<mycc:personComponent value="#{personsDetailController.person}" />
 	</ui:define>
 
 </ui:composition>
