@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:mycc="http://xmlns.jcp.org/jsf/composite/utils"
+	xmlns:f="http://java.sun.com/jsf/core" template="template.xhtml">
+
+	<ui:define name="head">Add person</ui:define>
+
+	<ui:define name="content">
+		<h:form>
+
+			<h:panelGrid columns="3" border="1">
+				<h:outputLabel value="ID:" />
+				<h:inputText id="id" value="#{addPersonController.id}" />
+				<h:message for="id" style="color:red" />
+
+				<h:outputLabel value="Firstname:" />
+				<h:inputText id="firstname" value="#{addPersonController.firstname}"
+					required="true" requiredMessage="Firstname missing" />
+				<h:message for="firstname" style="color:red" />
+
+				<h:outputLabel value="Lastname:" />
+				<h:inputText id="lastname" value="#{addPersonController.lastname}" />
+				<h:message for="lastname" style="color:red" />
+
+				<h:outputLabel value="Residence:" />
+				<h:inputText id="residence" value="#{addPersonController.residence}" />
+				<h:message for="residence" style="color:red" />
+
+				<h:outputLabel value="Children:" />
+				<h:selectManyListbox id="children"
+					value="#{addPersonController.children}">
+					<f:selectItems value="#{addPersonController.persons}" var="p"
+						itemLabel="#{p.firstname}" itemValue="#{p.id}" />
+				</h:selectManyListbox>
+				<h:message for="children" style="color:red" />
+				
+				
+			</h:panelGrid>
+			
+			<h:commandButton action="#{addPersonController.addPerson()}" value="Add person" />
+
+		</h:form>
+	</ui:define>
+
+</ui:composition>

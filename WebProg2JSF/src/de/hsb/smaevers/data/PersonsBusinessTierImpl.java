@@ -34,4 +34,9 @@ public class PersonsBusinessTierImpl implements PersonsBusinessTier {
 				.findFirst().get();
 	}
 
+	@Override
+	public void addPerson(Person p) throws RemoteException {
+		dataTier.addPerson(p);		
+	}
+
 }

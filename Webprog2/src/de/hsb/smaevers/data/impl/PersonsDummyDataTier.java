@@ -1,5 +1,6 @@
 package de.hsb.smaevers.data.impl;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,11 @@ public class PersonsDummyDataTier implements PersonsDataTier {
 		persons.add(new Person("2", "Ina", "Renke", "Paris", null));
 		
 		return new Persons(persons);
+	}
+
+	@Override
+	public void addPerson(Person p) throws RemoteException {
+		
 	}
 
 }

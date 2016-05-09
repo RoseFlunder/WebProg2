@@ -13,5 +13,7 @@ public interface PersonsBusinessTier extends Remote {
 	public Person getPerson(String id) throws RemoteException;
 	
 	public Person getPersonByFirstname(String firstname) throws RemoteException;
+	
+	public void addPerson(Person p) throws RemoteException;
 
 }

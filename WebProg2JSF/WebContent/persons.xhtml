@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
-<h:head>
-<title>Persons</title>
-</h:head>
-<h:body>
-	<h1>Alle Personen</h1>
-	<h:form>
-		<h:dataTable value="#{personsController.persons}" var="p" border="1">
-			<h:column>
-				<f:facet name="header">Firstname</f:facet>
-				<h:link outcome="person.xhtml" value="#{p.firstname}">
-					<f:param name="id" value="#{p.id}" />
-				</h:link>
-			</h:column>		
-			
-			<h:column>
-				<f:facet name="header">Lastname</f:facet>
+	xmlns:f="http://java.sun.com/jsf/core" template="template.xhtml">
+
+	<ui:define name="head">All persons</ui:define>
+
+	<ui:define name="content">
+		<h:form>
+			<h:dataTable value="#{personsController.persons}" var="p" border="1">
+				<h:column>
+					<f:facet name="header">Firstname</f:facet>
+					<h:link outcome="person.xhtml" value="#{p.firstname}">
+						<f:param name="id" value="#{p.id}" />
+					</h:link>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Lastname</f:facet>
 				#{empty p.lastname ? "*" : p.lastname}
 			</h:column>
-		</h:dataTable>
-	</h:form>
-</h:body>
-</html>
+			</h:dataTable>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
