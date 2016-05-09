@@ -3,10 +3,14 @@ package de.hsb.smaevers.controller;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 
 import de.hsb.smaevers.beans.Person;
@@ -16,23 +20,23 @@ import de.hsb.smaevers.data.PersonsBusinessTierFactory;
 @RequestScoped
 @ManagedBean
 public class AddPersonController {
-	//TODO: converter für children..
-	
+	// TODO: converter für children..
+
 	private PersonsBusinessTier personsBusinessTier;
-	
+
 	private String id;
 	private String firstname;
 	private String lastname;
 	private String residence;
 	private List<Person> persons;
-	private List<Person> children;
-	
+	private List<String> children;
+
 	@PostConstruct
-	private void init(){
+	private void init() {
 		FacesContext ctx = FacesContext.getCurrentInstance();
-		
+
 		Object obj = ctx.getExternalContext().getApplicationMap().get("PersonsBusinessTier");
-		if (obj == null){
+		if (obj == null) {
 			try {
 				personsBusinessTier = PersonsBusinessTierFactory.getPersonsBusinessTierInstance();
 				ctx.getExternalContext().getApplicationMap().put("PersonsBusinessTier", personsBusinessTier);
@@ -42,7 +46,7 @@ public class AddPersonController {
 		} else {
 			personsBusinessTier = (PersonsBusinessTier) obj;
 		}
-		
+
 		try {
 			persons = personsBusinessTier.getAllPersons().getPersons();
 		} catch (RemoteException e) {
@@ -50,12 +54,26 @@ public class AddPersonController {
 		}
 	}
 
-	public void addPerson(){
-		Person p = new Person(id, firstname, lastname, residence, children);
+	public void addPerson() {
+		List<Person> childrenList = persons.parallelStream()
+				.filter(p -> children.parallelStream().anyMatch(c -> c.equals(p.getId()))).collect(Collectors.toList());
+
+		Person p = new Person(id, firstname, lastname, residence, childrenList);
 		try {
 			personsBusinessTier.addPerson(p);
 		} catch (RemoteException e) {
 			e.printStackTrace();
+		}
+	}
+
+	public void validateId(FacesContext facesContext, UIComponent toValidate, Object object) {
+		final String input = (String) object;
+
+		if (persons.parallelStream().anyMatch(p -> p.getId().equals(input))) {
+			((UIInput) toValidate).setValid(false);
+			FacesMessage errorMessage = new FacesMessage("ID is already in use");
+			errorMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
+			facesContext.addMessage(toValidate.getClientId(facesContext), errorMessage);
 		}
 	}
 
@@ -99,11 +117,11 @@ public class AddPersonController {
 		this.persons = persons;
 	}
 
-	public List<Person> getChildren() {
+	public List<String> getChildren() {
 		return children;
 	}
 
-	public void setChildren(List<Person> children) {
+	public void setChildren(List<String> children) {
 		this.children = children;
 	}
 }

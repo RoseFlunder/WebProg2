@@ -11,9 +11,9 @@
 	<ui:define name="content">
 		<h:form>
 
-			<h:panelGrid columns="3" border="1">
+			<h:panelGrid columns="3">
 				<h:outputLabel value="ID:" />
-				<h:inputText id="id" value="#{addPersonController.id}" />
+				<h:inputText id="id" value="#{addPersonController.id}" required="true"  requiredMessage="ID missing" validator="#{addPersonController.validateId}"/>
 				<h:message for="id" style="color:red" />
 
 				<h:outputLabel value="Firstname:" />
