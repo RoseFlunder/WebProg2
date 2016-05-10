@@ -20,7 +20,7 @@ import de.hsb.smaevers.data.PersonsBusinessTierFactory;
 @RequestScoped
 @ManagedBean
 public class AddPersonController {
-	// TODO: converter für children..
+	// TODO: converter fï¿½r children..
 
 	private PersonsBusinessTier personsBusinessTier;
 
@@ -54,7 +54,7 @@ public class AddPersonController {
 		}
 	}
 
-	public void addPerson() {
+	public String addPerson() {
 		List<Person> childrenList = persons.parallelStream()
 				.filter(p -> children.parallelStream().anyMatch(c -> c.equals(p.getId()))).collect(Collectors.toList());
 
@@ -64,6 +64,8 @@ public class AddPersonController {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
+		
+		return null;
 	}
 
 	public void validateId(FacesContext facesContext, UIComponent toValidate, Object object) {
