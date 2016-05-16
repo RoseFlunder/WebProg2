@@ -26,7 +26,10 @@
 				<h:message for="lastname" style="color:red" />
 
 				<h:outputLabel value="Residence:" />
-				<h:inputText id="residence" value="#{addPersonController.residence}" />
+				<h:inputText id="residence" value="#{addPersonController.residence}">
+					<f:ajax event="keyup" execute="@this" listener="#{addPersonController.checkForPersonsWithResidence}"
+						render="personSameResidence"></f:ajax>
+				</h:inputText>
 				<h:message for="residence" style="color:red" />
 
 				<h:outputLabel value="Children:" />
@@ -41,6 +44,22 @@
 			</h:panelGrid>
 			
 			<h:commandButton action="#{addPersonController.addPerson}" value="Add person" />
+			
+			<h:panelGroup id="personSameResidence" >
+				<h:panelGroup id="singlePerson" rendered="#{addPersonController.personsSameResidence.size() eq 1}">
+					<mycc:personComponent  value="#{addPersonController.personsSameResidence[0]}"/>
+				</h:panelGroup>
+				
+				<h:panelGroup id="multiPersons" rendered="#{addPersonController.personsSameResidence.size() gt 1}">
+					<ul>
+						<ui:repeat value="#{addPersonController.personsSameResidence}" var="p">
+							<li>#{p.firstname}</li>
+						</ui:repeat>
+					</ul>
+				</h:panelGroup>
+			</h:panelGroup>
+			
+			
 
 		</h:form>
 	</ui:define>
