@@ -2,6 +2,9 @@
     <wb-module deploy-name="Webprog2REST">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <dependent-module archiveName="Webprog2Common.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/Webprog2Common/Webprog2Common">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="Webprog2REST"/>
         <property name="java-output-path" value="/Webprog2REST/build/classes"/>
     </wb-module>

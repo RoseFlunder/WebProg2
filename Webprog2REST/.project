@@ -3,6 +3,7 @@
 	<name>Webprog2REST</name>
 	<comment></comment>
 	<projects>
+		<project>Webprog2Common</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
