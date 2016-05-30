@@ -12,6 +12,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 
 import de.hsb.smaevers.beans.Person;
 import de.hsb.smaevers.data.PersonsBusinessTier;
@@ -20,7 +21,6 @@ import de.hsb.smaevers.data.PersonsBusinessTierFactory;
 @RequestScoped
 @ManagedBean
 public class AddPersonController {
-	// TODO: converter für children..
 
 	private PersonsBusinessTier personsBusinessTier;
 
@@ -30,6 +30,8 @@ public class AddPersonController {
 	private String residence;
 	private List<Person> persons;
 	private List<String> children;
+	
+	private List<Person> personsSameResidence;
 
 	@PostConstruct
 	private void init() {
@@ -54,7 +56,7 @@ public class AddPersonController {
 		}
 	}
 
-	public void addPerson() {
+	public String addPerson() {
 		List<Person> childrenList = persons.parallelStream()
 				.filter(p -> children.parallelStream().anyMatch(c -> c.equals(p.getId()))).collect(Collectors.toList());
 
@@ -64,6 +66,8 @@ public class AddPersonController {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
+		
+		return null;
 	}
 
 	public void validateId(FacesContext facesContext, UIComponent toValidate, Object object) {
@@ -75,6 +79,10 @@ public class AddPersonController {
 			errorMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
 			facesContext.addMessage(toValidate.getClientId(facesContext), errorMessage);
 		}
+	}
+	
+	public void checkForPersonsWithResidence(AjaxBehaviorEvent event){
+		personsSameResidence = persons.parallelStream().filter(p -> p.getResidence() != null && p.getResidence().equals(residence)).collect(Collectors.toList());
 	}
 
 	public String getId() {
@@ -123,5 +131,13 @@ public class AddPersonController {
 
 	public void setChildren(List<String> children) {
 		this.children = children;
+	}
+
+	public List<Person> getPersonsSameResidence() {
+		return personsSameResidence;
+	}
+
+	public void setPersonsSameResidence(List<Person> personsSameResidence) {
+		this.personsSameResidence = personsSameResidence;
 	}
 }
