@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Chat</title>
+</head>
+<body>
+	<div>
+		<input type="submit" value="Send" onclick="send()" />
+	</div>
+
+	<div id="messages"></div>
+
+	<script type="text/javascript">
+		var name = "Client" + parseInt(Math.random() * 1000);
+		var webSocket = new WebSocket("ws://localhost:8080/Webprog2REST/websocket/chat");
+
+		webSocket.onerror = function(event) {
+			onError(event)
+	    };
+
+		webSocket.onopen = function(event) {
+			onOpen(event)
+	    };
+
+	    webSocket.onmessage = function(event) {
+	    	onMessage(event)
+	    };
+	    
+	    webSocket.onclose = function(event) {
+	    	onClose(event)
+	    };
+	    
+	    function onClose(event){
+	    	document.getElementById('messages').innerHTML 
+				= 'Connection closed';
+	    };
+	    
+		function onMessage(event) {
+			var msg = JSON.parse(event.data);
+			document.getElementById('messages').innerHTML 
+				+= '<br />' + msg.name + ': ' + msg.number;
+	    };
+
+        function onOpen(event) {
+        	document.getElementById('messages').innerHTML 
+				= 'Connection established';
+        };
+
+	    function onError(event) {
+	    	alert(event.data);
+	    };
+	    
+	    function send() {
+			var num = parseInt(Math.random() * 100 + 1);
+
+			var msg = {
+				name: name,
+				number : num
+			};
+			
+			webSocket.send(JSON.stringify(msg));
+	    };
+	</script>
+
+</body>
+</html>
