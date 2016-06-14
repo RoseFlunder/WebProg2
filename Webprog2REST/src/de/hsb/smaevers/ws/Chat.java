@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.websocket.EncodeException;
 import javax.websocket.EndpointConfig;
@@ -18,6 +20,7 @@ public class Chat {
 	
 	private static Set<Session> clients = Collections.synchronizedSet(new HashSet<>());
 	private static Thread robot = new Thread(new ChatRoboter());
+	private static Lock lock = new ReentrantLock();
 	
 	static class ChatRoboter implements Runnable {
 		@Override
@@ -50,24 +53,29 @@ public class Chat {
 	public void open(Session session, EndpointConfig config) {
 		clients.add(session);
 		
-		synchronized (robot) {
+		lock.lock();
+		try {
 			if (!robot.isAlive()){
 				System.err.println("start robot");
 				robot.start();
 			}
+		} finally {
+			lock.unlock();
 		}
-		
 	}
 	
 	@OnClose
 	public void close(Session session){
 		clients.remove(session);
 		
-		synchronized (robot) {
+		try {
+			lock.lock();
 			if (clients.isEmpty()){
 				robot.interrupt();
 				robot = new Thread(new ChatRoboter());
 			}
+		} finally {
+			lock.unlock();
 		}
 	}
 	
